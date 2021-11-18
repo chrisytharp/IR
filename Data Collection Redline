@@ -1,0 +1,47 @@
+Data Collection
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+There are three ways or options to collect data using Redline: 
+    Standard Collector - FASTEST method configs the script to gather a minimum amount of data for the analysis. Takes a few minutes to complete.
+    Comprehensive Collector - this method configures the script to gather the most data from your host for further analysis. This method takes up to an hour or more. 
+    IOC Search Collector (Windows only) - this method collects data that matches with the Indicators of Compromise (IOCs) that you created with the help of IOC Editor.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+In Redline, click on "Create a Standard Collector"
+    Choose Target Platform
+    Under the Review Script Configuration, click on “Edit your script”, There will be 5 tabs, which include Memory, Disk, System, Network, and Other.
+
+1 - Memory:
+          Can collect memory data such as process listings, drivers enumeration (Windows hosts only), and hook detection (versions before Windows 10).
+2 - Disk: 
+          This is where you can collect the data on Disks partitions and Volumes along with File Enumeration.
+3 - System (system will provide you with machine info):
+          Machine and operating system (OS) information
+          Analyze system restore points (Windows versions before 10 only)
+          Enumerate the registry hives (Windows only)
+          Obtain user accounts (Windows and OS X only)
+          Obtain groups (OS X only)
+          Obtain the prefetch cache (Windows only) 
+4 - Network (Network Options supports Windows, OS X, and Linux platforms):
+          You can configure the script to collect network information and browser history, which is essential when investigating the browser activities, 
+          including malicious file downloads and inbound/outbound connections.  
+5 - Other (you can collect the data on different services and tasks running on the system, including the hashes):
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1 - After choosing your data options - click OK And then click on"Browse" under "Save Your Collector To"
+
+2 - Choose an EMPTY FOLDER to save file to
+
+NOTE: After you choose to save the collector to the folder, you will see the Collector Instructions
+
+3 - Go into the folder & locate the bat file named "RunRedlineAudit". This is the executable script to collect data from the host. 
+    Run as Administrator to be able to collect the data we need.
+
+4 - Running the script will open a cmd prompt. It will close automatically when the data collection process finishes. 
+
+Note: This process may take between 15-20 minutes to complete.
+
+5 - After the script is finished, you will notice a new file created - AnalysisSession1 (in the Sessions folder) with the .mans extension. 
+    This file is what we need to be able to import into Redline for investigation. Just double-click on the file to import the audit data.
+
+
+
