@@ -1,0 +1,20 @@
+Browser forensics
+    Common browser forensics artefacts are as follows:
+          Browser history
+          Bookmarks
+          Autocomplete data
+          Form history
+          Cached files/images
+          Cached pages
+          File downloads
+          Searches
+          Cookies
+          
+C:\Users\%userprofile%\AppData\Local\Google\Chrome\User Data\Default
+C:\Users\%userprofile%\AppData\Local\Google\Chrome\User Data\ChromeDefaultData
+
+
+data is stored as SQLite database files, which means that we can view them easily using certain tools. Several tools allow you to view and analyse these files 
+    – the most basic is the DB browser for SQLite
+Another tool included within this lab is Foxtons Forensics' free 'Browser History Viewer' tool. You can load the capture files and examine them by 
+  selecting ‘File’, ‘Load History’, and then ‘Load history captured using the Browser History Capturer’, selecting the relevant files.
