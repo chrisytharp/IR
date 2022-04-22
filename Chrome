@@ -9,9 +9,13 @@ Browser forensics
           File downloads
           Searches
           Cookies
-          
+Chrome-          
 C:\Users\%userprofile%\AppData\Local\Google\Chrome\User Data\Default
 C:\Users\%userprofile%\AppData\Local\Google\Chrome\User Data\ChromeDefaultData
+
+Firefox-
+C:\Users\%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\profileID.default\
+C:\Users\%userprofile%\AppData\Local\Mozilla\Firefox\Profiles\profileID.default\
 
 
 data is stored as SQLite database files, which means that we can view them easily using certain tools. Several tools allow you to view and analyse these files 
