@@ -1,0 +1,51 @@
+Google Chrome
+The Google Chrome browser on Windows is, at the time of writing, the world's most popular internet browser, with 6 out of every 10 internet users opting to use Chrome over any other browser. In addition to its popularity, the way Chrome stores information (like session cookies) and allows users to save credentials for convenience makes for a large attack surface. Once they obtain initial access, malicious actors can leverage its vastness to facilitate further attacks.
+
+You can see where Chrome stores this information by opening an explorer window and browsing to:
+
+%LOCALAPPDATA%\Google\Chrome\User Data\Default
+
+
+Note
+The %LOCALAPPDATA% environment variable simply points to the path:
+
+C:\Users\%USERNAME%\AppData\Local\
+
+It should also be noted that depending on which version is being used, or if a target has multiple user profiles in the Chrome browser, the folder structure may change slightly. But the Cookies and Login Data files will still be present for each profile.
+
+When a user successfully authenticates to a website, a session cookie and its associated data may be stored in the Cookies file – especially if a user is given the option to tick a ‘remember this computer’ checkbox (or something similar). If a malicious actor acquires these persistent cookies, they could reuse them in a pass-the-cookie attack and access certain resources without requiring a username, password, or an MFA token.
+
+Chrome will also offer to save usernames and passwords when a user authenticates to websites. These credentials are stored in the Login Data file. Users often choose to reuse passwords or store highly sensitive credentials in the Chrome browser when a more secure Privileged Access Management (PAM) or password storage solution isn’t available.
+
+When you view these files in DB Browser, the sensitive content (that an attacker would want to see) appears as an encrypted blob:
+
+
+This data has been secured using the Windows Data Protection Application Programming Interface (DPAPI).
+
+DPAPI
+DPAPI provides a set of APIs for applications to encrypt or decrypt data when the keys to do so are tied to a specific user or system. No user interaction is required, but the process needs to be running in the context of the user or system (and is therefore authenticated) to make use of the CryptProtectData or CryptUnprotectData functions that encrypt and decrypt those data blobs.
+
+Data is encrypted with a session key, which is partially derived from a master key stored within %APPDATA%. It can be found at the following location:
+
+C:\Users\%USERNAME%\AppData\Romaing\Microsoft\Protect\<user SID>\
+
+It's worth noting that multiple master keys can be present. They're stored in a file name that's comprised of a globally unique identifier (GUID). If you try to view them in Explorer, you'll notice they're marked as hidden from the GUID. Other tools are required to view and read them because the file attributes are marked as both hidden and system:
+
+
+The master key lies in an encrypted format inside this file. The user's cleartext password is required to recover it.
+
+Note
+We recommend reading the Operational Guidance for Offensive User DPAPI Abuse post from Specter Ops for more in-depth information.
+
+You can still interact with the CryptProtectData and CryptUnprotectData functions without having knowledge of the user's password – and you can do so as a standard user without escalating privileges.
+
+But it means an attacker has to perform some actions on just the victim's machine. Stealing the associated files and attempting to decrypt locally won't work unless you also have the user's password.
+
+This is where you can use tools like Mimikatz to access that sensitive data.
+
+Mimikatz
+The Mimikatz DPAPI module will automate the entire decryption process for you, only requiring the /in:<path-to-file> and /unprotect flags:
+
+dpapi::chrome /in:"c:\users\imluser\appdata\local\google\chrome\user data\default\login data" /unprotect
+dpapi::chrome /in:"c:\users\imluser\appdata\local\google\chrome\user data\default\cookies" /unprotect
+With this, you can examine the Cookies and Login Data files and observe the previously encrypted data in cleartext.
