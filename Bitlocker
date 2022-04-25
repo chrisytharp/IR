@@ -1,0 +1,34 @@
+BitLocker Encrypted Drive
+Quick Summary
+BitLocker is a disk-encryption tool available on professional versions of Windows OS (from Vista onwards). Using BitLocker, you can encrypt your entire drive as well as individual and external drives to help keep data safe.
+
+What is BitLocker?
+BitLocker is a native tool for the Windows Operating System that enables Full Disk Encryption for devices. It can encrypt Operating System drives or external drives that are used to store data. BitLocker, like other full disk encryption tools, is designed to protect your drive and data from offline attacks. 
+
+For example, if you left your laptop unattended in a powered-off state, it would be challenging for anyone to access the data or modify its contents without a significant amount of time. 
+
+BitLocker does not protect from any form of data harvesting or modification if the device is already booted. In this instance, BitLocker has intentionally decrypted the disk for access, and standard Windows controls would be required. 
+
+When configuring BitLocker on a device, you are provided with a set of Recovery Keys; these keys can be used to recover data from the drive in case the passwords are lost. 
+
+It is important that these recovery keys are protected as if they were as sensitive as the data they are protecting. 
+
+
+Accessing the drive
+There may be occasions where you have to recover data from a BitLocker encrypted device. This could be part of general IT help desk issues where users forget their passwords and need to gain access to data or during part of a cyber security incident where you may have to analyse a suspicious USB device or a workstation image that has full disk encryption. 
+
+For normal data recovery, it is typically more suitable to use a Windows device that has built-in tools for recovery. During cyber incidents, you may be using a different operating system like Linux. In this instance, some tools can help unlock these devices for further analysis.
+
+mmls
+
+mmls is a Command Line Tool that can provide us with information on the layout of file system partitions on a disk or image. 
+
+bdemount
+
+bdemount is a Command Line Tool specifically designed to mount BitLocked devices using credentials or recover keys. You will also need to provide an offset to the start of the encrypted partition; this can be calculated by taking the start units value from mmls and multiplying by the sector size. 
+
+For example, assuming a start value of 0000004685 units and a unit is 512 bytes, the offset would be (4685*512) or 2398720.
+
+mount
+
+mount is a standard Command Line Tool found in operating systems like Unix that can mount disk images. When mounting non-physical devices like disk images instead of actual disk drives, you will need to use the -o loop option to provide a fake device location.
