@@ -1,0 +1,39 @@
+File Carving
+Quick Summary
+There are occasions during an investigation when you have to recover data that has been deleted or deliberately hidden. This lab will show you some common tools used to recover data through a process known as file carving.
+
+When an operating system deletes a file or folder, it typically doesn't delete the file data. Instead, it removes the reference to the file and marks the area of the disk as overwritable.
+
+From a forensic viewpoint this is useful as it may allow for data recovery where data has yet to be overwritten. 
+
+Most file carving techniques make use of file signatures and footers, also known as magic bytes. The software scans the target looking for file signatures of known files, and if it finds one, it will look for an end to the file and ‘carve’ out the data. If the true length of the file is not known it will use a predetermined or user-set standard value for the length, allowing the investigator to analyse the individual files in greater detail.
+
+Foremost
+Foremost is one of the best-known tools for file-based carving. It can be used to scan disk images, memory images, PCAP files and recovered slack space data. The main page for Foremost can be found on the old sourceforge site.
+
+Scalpel
+Scalpel was released as a new file-carving application based on Foremost, with some improvements to make it more efficient. It uses the same method and configuration file as its predecessor.
+
+It has not been updated in several years, its repository can be found on github.
+
+Configuration
+Both Foremost and Scalpel use the same methodology to determine file boundaries, which is based on file signatures. For an introduction to file signatures see our Magic Bytes lab.
+
+The config files for both tools follow an identical format. Each signature to match is placed on its own line and has the following fields:
+
+extension
+case sensitive
+size
+header (\x hex notation)
+footer (\x hex notation)
+An example line for a PNG image would be:
+
+png     y       20000000        \x50\x4e\x47?   \xff\xfc\xfd\xfe
+
+Any line starting with a hash symbol (#) is considered a comment and is ignored.
+
+There are several default file signatures built into the config files. To add your own is as simple as entering the details on a new line.
+
+The config files are typically located in the /etc/ dir.
+
+A noticeable difference between Foremost and Scalpel is that the former can read from stdin, making it easier to pipe data its way, whereas the latter was optimised for reading disk images and so requires a target file.
